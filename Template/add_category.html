@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Category</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 👈 Mobile-friendly -->
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff; /* 👈 Full white background */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden; /* 👈 Prevent horizontal scroll */
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 24px;
+            margin: 20px auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 480px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 24px;
+            color: #444;
+            font-size: 22px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form p {
+            margin-bottom: 18px;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button[type="submit"] {
+            background-color: #6C63FF;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #5548e1;
+        }
+
+        /* 🔴 Error message styling */
+        .error-message {
+            background-color: #ffcccc;
+            color: #a10000;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        /* Mobile-safe links (if any) */
+        .link-group {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .link-group a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #6C63FF;
+            padding: 10px 16px;
+            margin: 0 6px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .link-group a:hover {
+            background-color: #5548e1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Add {% if transaction_type == 'IN' %}Income{% else %}Expense{% endif %} Category</h2>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="id_name">Category Name</label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <div class="error-message">
+                    {% for error in form.name.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button type="submit">Add Category</button>
+        </form>
+    </div>
+
+</body>
+</html>

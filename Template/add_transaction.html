@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add {% if transaction_type == 'IN' %}Income{% else %}Expense{% endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ For mobile scaling -->
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffffff; /* ✅ Full white background */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden; /* ✅ Prevent side scrolling */
+      color: #333;
+    }
+
+    .form-container {
+      background-color: #fff;
+      padding: 24px;
+      margin: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 480px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    button[type="submit"] {
+      background-color: #6C63FF;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #5548e1;
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .category-header a {
+      font-size: 0.85em;
+      background: #00b894;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .category-header a:hover {
+      background-color: #019875;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      text-decoration: none;
+      background-color: #6C63FF;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #5548e1;
+    }
+
+    /* ✅ Error message styling */
+    .errorlist {
+      margin: 6px 0 0;
+      padding: 8px 12px;
+      background-color: #ffe0e0;
+      color: #a10000;
+      border-radius: 6px;
+      font-size: 14px;
+      list-style: none;
+    }
+
+    .errorlist li {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>Add {% if transaction_type == 'IN' %}Income{% else %}Expense{% endif %}</h1>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="form-group">
+        {{ form.amount.label_tag }}
+        {{ form.amount }}
+        {{ form.amount.errors }}
+      </div>
+
+      <div class="form-group">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        {{ form.description.errors }}
+      </div>
+
+      <div class="form-group">
+        <div class="category-header">
+          {{ form.category.label_tag }}
+          <a href="{% url 'myWalletapp:add_category' %}?type={{ transaction_type }}">+ Add Category</a>
+        </div>
+        {{ form.category }}
+        {{ form.category.errors }}
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'myWalletapp:wallet' %}" class="back-link">Back to Wallet</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const select = document.querySelector('select[name="category"]');
+      if (select) {
+        for (let option of select.options) {
+          if (option.text.includes("Lend")) {
+            option.style.color = 'red';
+            option.style.fontWeight = 'bold';
+          } else if (option.text.includes("Borrow")) {
+            option.style.color = 'blue';
+            option.style.fontWeight = 'bold';
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
+
+    .logout {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 26px;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .logout:hover {
+      color: #000;
+    }
+
+    .content {
+      padding: 90px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin: 0;
+    }
+
+    .username {
+      font-size: 24px;
+      margin-top: 6px;
+    }
+
+    .balance-title {
+      margin-top: 30px;
+      font-size: 20px;
+      color: #444;
+    }
+
+    .balance {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .button-container {
+      margin-top: 90px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 280px;
+      gap: 16px;
+    }
+
+    .button-container a {
+      text-decoration: none;
+    }
+
+    button {
+      background-color: #6C63FF;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 17px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #5548e1;
+    }
+
+    .fab-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fab {
+      background-color: #6C63FF;
+      color: white;
+      border-radius: 50%;
+      width: 54px;
+      height: 54px;
+      font-size: 26px;
+      line-height: 54px;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .fab:hover {
+      background-color: #5548e1;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .username {
+        font-size: 20px;
+      }
+
+      .balance-title {
+        font-size: 18px;
+      }
+
+      .balance {
+        font-size: 24px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 12px;
+      }
+      .button-container {
+        margin-top: 80px; /* even more space on smaller screens */
+    }
+
+      .fab {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        line-height: 48px;
+      }
+
+      .logout {
+        font-size: 22px;
+        top: 12px;
+        right: 12px;
+      }
+
+      .content {
+        padding-top: 80px;
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logout icon -->
+  <a href="{% url 'logout' %}" class="logout" title="Logout">⎋</a>
+
+  <div class="content">
+    <h1>Hi</h1>
+    <div class="username">{{ username|title }}</div>
+
+    <div class="balance-title">Your Balance</div>
+    <div class="balance">₹{{ balance|floatformat:2 }}</div>
+
+    <div class="button-container">
+      <a href="{% url 'myWalletapp:add_income' %}">
+        <button>Add Income</button>
+      </a>
+      <a href="{% url 'myWalletapp:add_expense' %}">
+        <button>Add Expense</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating buttons -->
+  <div class="fab-container">
+    <a href="{% url 'myWalletapp:transaction_list' %}" class="fab" title="Transactions">📄</a>
+    <a href="{% url 'myWalletapp:credit_view' %}" class="fab" title="Credits">💳</a>
+  </div>
+
+</body>
+</html>
